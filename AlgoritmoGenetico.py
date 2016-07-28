@@ -8,9 +8,9 @@ class AlgoritmoGenetico:
 	def __init__(self,nrGenes,tamanhoPopulacao):
 		self.tamanhoPopulacao = tamanhoPopulacao
 		self.populacao = self.criaPopulacaoInicial(nrGenes)
-		self.pesos=[1,2,3,4,5,6,7,8,9,10]
-		self.valores=[10,20,30,40,50,60,70,80,90,100]
-		self.pesoMaximo=70
+		self.pesos=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
+		self.valores=[10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300]
+		self.pesoMaximo=1000
 		self.probabilidadeCruzamento=70
 		self.probabilidadeMutacao=5
 
@@ -95,7 +95,7 @@ class AlgoritmoGenetico:
 	def muta(self):
 		best = self.getMelhorIndividuo()
 		for cromossomo in self.populacao:
-			if(id(best)!=id(cromossomo)): #nao executa mutacao no melhor individuo
+			if(id(best) != id(cromossomo)): #nao executa mutacao no melhor individuo
 				self.mutacao(cromossomo)
 
 	
@@ -103,6 +103,7 @@ class AlgoritmoGenetico:
 		print len(self.populacao)
 		for cromossomo in self.populacao:
 			print cromossomo.toString() + " " + self.getConfiguracaoMochila(cromossomo)
+
 
 	def getConfiguracaoMochila(self,cromossomo):
 		pesoTotal = 0
@@ -113,8 +114,20 @@ class AlgoritmoGenetico:
 				valorTotal += self.valores[i]
 		return "peso: {0}, valor: {1}".format(pesoTotal,valorTotal)
 
+
 	def getMelhorIndividuo(self):
 		return max(self.populacao, key=attrgetter('fitness'))
+
+
+	def simulaPesos(self,qtde, maxPeso):
+		self.pesos = []
+		for i in range(0,qtde):
+			self.pesos.append(random.randrange(maxPeso)) 
+
+	def simulaValores(self,qtde,maxValor):
+		self.valores=[]
+		for i in range(0,qtde):
+			self.valores.append(random.randrange(maxValor)) 
 
 
 
