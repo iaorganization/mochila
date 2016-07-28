@@ -22,7 +22,7 @@ for h in range(Geracoes):
         Peso=0;
         for j in range(NmaxEntradas):
             Dados[i][j]=randint(0,1);
-            Total+=Dados[i][j]*Pesos[j];
+            Total+=Dados[i][j]*Valores[j];
             Peso+=Dados[i][j]*Pesos[j];
         
             if j < NmaxEntradas - 1:

@@ -47,7 +47,7 @@ class AlgoritmoGenetico:
 			if(pesoTotal > self.pesoMaximo):
 				cromossomo.setFitness(0)
 			else:
-				cromossomo.setFitness(0.7*valorTotal-0.3*pesoTotal)
+				cromossomo.setFitness(1.0*valorTotal-0.0*pesoTotal)
 
 
 	def criaPopulacaoInicial(self,nrGenes):
