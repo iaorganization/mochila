@@ -1,13 +1,13 @@
 from random import randint
 import sys
 import time
-Dados=[0,0,0,0,0,0,0,0,0,0];
-Pesos=[1,2,3,5,4,6,8,7,9,10];
-Valores=[2,3,4,5,6,7,8,9,10,11]
-NmaxEntradas=10;
-NmaxParticulas=3;
-Geracoes=3;
-PesoMaximo=17;
+Dados=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+Pesos=[1,2,3,5,4,6,8,7,9,10,11,12,13,14,15,16,17,18,19,20];
+Valores=[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
+NmaxEntradas=20;
+NmaxParticulas=10;
+Geracoes=100;
+PesoMaximo=120;
 Maximo=0; #melhor mochila encontrada
 MelhorIndice=0;#Indice da melhor particula encontrada
 MelhorEpoca=0;#Epoca da melhor particula encontrada

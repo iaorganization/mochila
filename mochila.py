@@ -4,19 +4,19 @@ import sys
 import time
 
 Alvo= 210  #Alvo que se quer atingir
-NmaxEntradas = 6 #Numero maximo de entradas
+NmaxEntradas = 10 #Numero maximo de entradas
 NmaxParticulas = 10 #Numero maximo de particulas
 Velocidade = 10 #Velocidade maxima de mudanca de iteracoes
 PesoMaximo = 7;
 
-NmaxEpocas = 10; #Numero maximo de epocas
+NmaxEpocas = 100; #Numero maximo de epocas
 
 LimiteInferior = 0 #Limitante minimo para a geracao de dados aleatorios
 LimiteSuperior = 2# Limitante maximo para a geracao de dados aleatorios
 
 
-Valores=[10,20,30,40,50,60]
-Pesos=[1,2,3,4,5,6]
+Valores=[2,3,4,5,6,7,8,9,10,11]
+Pesos=[1,2,3,4,5,6,7,8,9,10]
 
 
 Particulas = []
@@ -248,7 +248,7 @@ def imprime():
 
 if __name__ == '__main__':
     tempo=0;
-    for i in range(5):
+    for i in range(1):
         inicio_execucao = time.time()    
         PSA()
         imprime()

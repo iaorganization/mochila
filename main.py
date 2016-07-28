@@ -3,10 +3,10 @@ from AlgoritmoGenetico import AlgoritmoGenetico
 
 if __name__ == '__main__':
 
-	ag = AlgoritmoGenetico(10,20)
-	ag.simulaPesos(10,100)
+	ag = AlgoritmoGenetico(20,10)
+	# ag.simulaPesos(10,100)
 	print ag.pesos
-	ag.simulaValores(10,1000)
+	# ag.simulaValores(10,1000)
 	print ag.valores
 	print "***********  populacao inicial ***************"
 	ag.calculaFitness()
@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
 	
 
-	for i in range(50000):
+	for i in range(100):
 		print "\n\n************************  Geracao: {0}".format(i) 
 		ag.cruza()	
 		ag.muta()
