@@ -3,10 +3,11 @@ import math
 import sys
 import time
 
-Alvo= 30  #Alvo que se quer atingir
+Alvo= 210  #Alvo que se quer atingir
 NmaxEntradas = 6 #Numero maximo de entradas
-NmaxParticulas = 3 #Numero maximo de particulas
+NmaxParticulas = 10 #Numero maximo de particulas
 Velocidade = 10 #Velocidade maxima de mudanca de iteracoes
+PesoMaximo = 7;
 
 NmaxEpocas = 10; #Numero maximo de epocas
 
@@ -14,7 +15,8 @@ LimiteInferior = 0 #Limitante minimo para a geracao de dados aleatorios
 LimiteSuperior = 2# Limitante maximo para a geracao de dados aleatorios
 
 
-Pesos=[4,6,8,7,9,10]
+Valores=[10,20,30,40,50,60]
+Pesos=[1,2,3,4,5,6]
 
 
 Particulas = []
@@ -51,19 +53,29 @@ def inicializa_particula():
         Total = 0
         for j in range(NmaxEntradas):
             NovaParticula.set_dados(j, random.randrange(LimiteInferior, LimiteSuperior))
-            Total += NovaParticula.get_dados(j)* Pesos[i];
-
+            Total += NovaParticula.get_dados(j)* Pesos[j];
+        
         NovaParticula.set_melhorParticula(Total)
         Particulas.append(NovaParticula)
     return
 
 def testa_dados(Indice):
     Total = 0
-
     for i in range(NmaxEntradas):
-        Total += Particulas[Indice].get_dados(i)*Pesos[i]
+        Total += Particulas[Indice].get_dados(i)*Valores[i]
+            #if testa_peso(Indice) > PesoMaximo:
+            #Total= PesoMaximo-testa_peso(Indice);
+            
 
     return Total
+
+def testa_peso(Indice):
+    Peso = 0
+    
+    for i in range(NmaxEntradas):
+        Peso += Particulas[Indice].get_dados(i)*Pesos[i]
+    
+    return Peso
     
     
 def retorna_minimo():
@@ -79,8 +91,9 @@ def retorna_minimo():
             if i != Minimo:
                 # The minimum has to be in relation to the Target.
                 if math.fabs(Alvo - testa_dados(i)) < math.fabs(Alvo - testa_dados(Minimo)):
-                    Minimo = i
-                    NovoMinimo = True
+                    if testa_peso(i) <= PesoMaximo:
+                        Minimo = i
+                        NovoMinimo = True
         
         if NovoMinimo == False:
             Feito = True
@@ -141,9 +154,21 @@ def PSA():
     GTesteMelhor = 0
     Particula1 = None
     Epoca = 0
+    Passou= NmaxParticulas #Particulas que passaram do limite de peso
     Feito = False
 
-    inicializa_particula()
+
+    while Passou==NmaxParticulas:
+        inicializa_particula()
+        for i in range(NmaxParticulas):
+            if testa_peso(i)<=PesoMaximo:
+                Passou+=1;
+
+
+    for i in range(NmaxParticulas):
+        if testa_peso(i)<=PesoMaximo:
+            GMelhor=i;
+            break;
 
     while not Feito:
         # Two conditions can end this loop:
@@ -154,10 +179,10 @@ def PSA():
                 for j in range(NmaxEntradas):
                     if j < NmaxEntradas - 1:
                         sys.stdout.write("(") 
-                        sys.stdout.write(str(Particulas[i].get_dados(j)) + " * "+ str(Pesos[j]) + ") + ")
+                        sys.stdout.write(str(Particulas[i].get_dados(j)) + " * "+ str(Valores[j]) + ") + ")
                     else:
                         sys.stdout.write("(") 
-                        sys.stdout.write(str(Particulas[i].get_dados(j)) + " * "+ str(Pesos[j]) + ") = ")
+                        sys.stdout.write(str(Particulas[i].get_dados(j)) + " * "+ str(Valores[j]) + ") = ")
                      
 
                 #sys.stdout.write(str(bin(testa_dados(i)))+ "\n")
@@ -168,14 +193,21 @@ def PSA():
             GTesteMelhor = retorna_minimo()
             Particula1 = Particulas[GMelhor]
             if math.fabs(Alvo - testa_dados(GTesteMelhor)) < math.fabs(Alvo - testa_dados(GMelhor)):
-                GMelhor = GTesteMelhor
+                if testa_peso(GTesteMelhor) <= PesoMaximo:
+                    GMelhor = GTesteMelhor
+            
+                        
+            
             
             retorna_velocidade(GMelhor)
             
             atualiza_particulas(GMelhor)
             
-            sys.stdout.write("\nNumero de epocas: " + str(Epoca))
+            sys.stdout.write("\n Numero de epocas: " + str(Epoca));
             sys.stdout.write("\n")
+            sys.stdout.write("Melhor: " + str(GMelhor))
+            sys.stdout.write("\n Peso maximo dessa geracao: "+ str(testa_peso(GMelhor)) + "\n");
+            
             
             Epoca += 1
         else:
@@ -194,14 +226,13 @@ def imprime():
     
     # Print it.
     if Alvo1 < len(Particulas):
-        sys.stdout.write("\nParticula " + str(Alvo1) + " acertou o alvo.\n")
         for i in range(NmaxEntradas):
             if i < NmaxEntradas - 1:
                 sys.stdout.write("(") 
-                sys.stdout.write(str(Particulas[Alvo1].get_dados(i)) + " * "+ str(Pesos[i]) + ") + ")
+                sys.stdout.write(str(Particulas[Alvo1].get_dados(i)) + " * "+ str(Valores[i]) + ") + ")
             else:
                 sys.stdout.write("(") 
-                sys.stdout.write(str(Particulas[Alvo1].get_dados(i)) + " * "+ str(Pesos[i]) + ") eh o mais proximo do alvo: " + str(Alvo))
+                sys.stdout.write(str(Particulas[Alvo1].get_dados(i)) + " * "+ str(Valores[i]) + ") eh o mais proximo de satisfazer o prblema")
              #if i >= NmaxEntradas - 1:
                 #sys.stdout.write(str(bin(Alvo)))
         
@@ -226,5 +257,5 @@ if __name__ == '__main__':
         
         tempo+=duracao;
     tempo=tempo/5;
-    sys.stdout.write("Media: " + str(tempo) + " segundos" )
+    sys.stdout.write("Media: " + str(tempo) + " segundos \n" )
     

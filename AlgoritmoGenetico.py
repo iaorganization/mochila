@@ -10,17 +10,17 @@ class AlgoritmoGenetico:
 		self.populacao = self.criaPopulacaoInicial(nrGenes)
 		self.pesos=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
 		self.valores=[10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250,260,270,280,290,300]
-		self.pesoMaximo=1000
+		self.pesoMaximo=250
 		self.probabilidadeCruzamento=70
-		self.probabilidadeMutacao=5
+		self.probabilidadeMutacao=10
 
 	def cruzamentoUmPonto(self,cromo1,cromo2):
 		numGenes = len(cromo1.genes)
 		pontoCorte = random.randrange(numGenes)
 		genes1 = cromo1.genes[0:pontoCorte] + cromo2.genes[pontoCorte:numGenes]
 		genes2 = cromo2.genes[0:pontoCorte] + cromo1.genes[pontoCorte:numGenes]
-		filho1 = Cromossomo(5)
-		filho2 = Cromossomo(5)
+		filho1 = Cromossomo(20)
+		filho2 = Cromossomo(20)
 		filho1.genes = genes1
 		filho2.genes = genes2
 		return filho1,filho2
@@ -47,7 +47,7 @@ class AlgoritmoGenetico:
 			if(pesoTotal > self.pesoMaximo):
 				cromossomo.setFitness(0)
 			else:
-				cromossomo.setFitness(valorTotal)
+				cromossomo.setFitness(0.7*valorTotal-0.3*pesoTotal)
 
 
 	def criaPopulacaoInicial(self,nrGenes):
