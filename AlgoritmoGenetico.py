@@ -8,9 +8,9 @@ class AlgoritmoGenetico:
 	def __init__(self,nrGenes,tamanhoPopulacao):
 		self.tamanhoPopulacao = tamanhoPopulacao
 		self.populacao = self.criaPopulacaoInicial(nrGenes)
-		self.pesos=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-		self.valores=[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
-		self.pesoMaximo=120
+		self.pesos=		[8, 41, 51, 28, 7, 32, 70, 32, 91, 59, 47, 7, 70, 94, 68, 71, 53, 46, 22, 25, 99, 33, 72, 77, 80, 22, 3, 39, 6, 68, 33, 51, 58, 22, 18, 83, 19, 86, 79, 14, 32, 37, 28, 34, 86, 42, 41, 37, 62, 41]
+		self.valores=	[222, 723, 941, 640, 435, 768, 794, 520, 488, 864, 840, 640, 61, 393, 484, 595, 580, 492, 44, 865, 762, 42, 889, 421, 558, 720, 629, 896, 880, 314, 319, 591, 600, 877, 566, 944, 183, 826, 84, 216, 331, 426, 499, 706, 990, 72, 127, 72, 922, 204]
+		self.pesoMaximo=1500
 		self.probabilidadeCruzamento=70
 		self.probabilidadeMutacao=20
 
@@ -47,7 +47,7 @@ class AlgoritmoGenetico:
 			if(pesoTotal > self.pesoMaximo):
 				cromossomo.setFitness(0)
 			else:
-				cromossomo.setFitness(1.0*valorTotal-0.0*pesoTotal)
+				cromossomo.setFitness(0.7*valorTotal-0.3*pesoTotal)
 
 
 	def criaPopulacaoInicial(self,nrGenes):
@@ -62,7 +62,7 @@ class AlgoritmoGenetico:
 		cromossomos=[]
 		for cromossomo in self.populacao:
 			prob = random.randrange(100)
-			if(prob <= self.probabilidadeCruzamento):
+			if(prob <= self.probabilidadeCruzamento): #verifica se o cromossomo ira para o cruzamento
 				cromossomos.append(cromossomo)
 		for x in range(0,len(cromossomos),2):
 			if (x+1 >= len(cromossomos)):

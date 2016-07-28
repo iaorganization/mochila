@@ -1,19 +1,19 @@
 from random import randint
 import sys
 import time
-Dados=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-Pesos=[1,2,3,5,4,6,8,7,9,10,11,12,13,14,15,16,17,18,19,20];
-Valores=[2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21]
-NmaxEntradas=20;
+Dados=  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+Pesos=  [10,22,3,46,58,6,75,8,9,101,11,122,13,10,15,76,17,10,19,20,10,22,3,46,58,6,75,8,9,101,11,122,13,10,15,76,17,10,19,20]
+Valores=[10,22,3,46,58,6,75,8,9,101,11,122,13,10,15,76,17,10,19,20,10,22,3,46,58,6,75,8,9,101,11,122,13,10,15,76,17,10,19,20]
+NmaxEntradas=50;
 NmaxParticulas=10;
 Geracoes=100;
-PesoMaximo=120;
+PesoMaximo=9000;
 Maximo=0; #melhor mochila encontrada
 MelhorIndice=0;#Indice da melhor particula encontrada
 MelhorEpoca=0;#Epoca da melhor particula encontrada
 MelhorPeso=0; #
 Dados = [[0 for i in xrange(NmaxEntradas)] for i in xrange(NmaxParticulas)]
-Objetivo= 25; #peso maximo
+Objetivo= 100000; #peso maximo
 
 inicio_execucao = time.time()
 for h in range(Geracoes):
