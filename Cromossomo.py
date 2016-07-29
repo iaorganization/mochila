@@ -19,5 +19,5 @@ class Cromossomo:
 		return self.fitness
 
 	def toString(self):
-		return "genes {0}, fitness {1}, id {2}".format(self.genes,self.fitness,id(self))
+		return "genes: " + str(self.genes)+", fitness:" +  str(self.fitness)+", id: " + str(id(self))
 
