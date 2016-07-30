@@ -48,7 +48,7 @@ class AlgoritmoGenetico:
 			if(pesoTotal > self.pesoMaximo):
 				cromossomo.setFitness(0)
 			else:
-				cromossomo.setFitness(0.6*valorTotal-0.4*pesoTotal)
+				cromossomo.setFitness(1.0*valorTotal-0.0*pesoTotal)
 
 
 	def criaPopulacaoInicial(self,nrGenes):
@@ -77,8 +77,9 @@ class AlgoritmoGenetico:
 		self.calculaFitness()
 		novaPopulacao=[]
 		best = self.getMelhorIndividuo()					# 
-		novaPopulacao.append(best)							# elitismo
-		for i in range(self.tamanhoPopulacao):
+		novaPopulacao.append(best)		
+		while (len(novaPopulacao)<self.tamanhoPopulacao):					# elitismo
+		# for i in range(self.tamanhoPopulacao):
 			c1 = random.randrange(len(self.populacao))
 			c2 = random.randrange(len(self.populacao))
 			cromossomoVencedor = self.torneio(self.populacao[c1],self.populacao[c2])
@@ -96,7 +97,7 @@ class AlgoritmoGenetico:
 	def muta(self):
 		best = self.getMelhorIndividuo()
 		for cromossomo in self.populacao:
-			if(id(best) != id(cromossomo)): #nao executa mutacao no melhor individuo
+			if(best.id != cromossomo.id): #nao executa mutacao no melhor individuo
 				self.mutacao(cromossomo)
 
 	

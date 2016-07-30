@@ -22,7 +22,7 @@ def readConfigurationFile(fileName):
 	return pesos,valores,pesoMaximo
 	# print valores + str(len(valores))
 
-def writeFile(fileName,qtde,rangeMax):
+def writeConfigurationFile(fileName,qtde,rangeMax):
 	file2 = open(fileName,"w")
 	ag = AlgoritmoGenetico(qtde,1)
 	ag.simulaValores(qtde,rangeMax)
@@ -43,7 +43,7 @@ def writeFile(fileName,qtde,rangeMax):
 
 
 if __name__ == '__main__':
-	# writeFile("mochila2.txt",100,100)
+	# writeConfigurationFile("mochila2.txt",1000,100)
 	pesos,valores,pesoMaximo = readConfigurationFile("mochila2.txt")
 
 	ag = AlgoritmoGenetico(len(pesos),10)
@@ -52,7 +52,7 @@ if __name__ == '__main__':
 	ag.pesoMaximo = pesoMaximo
 	ag.probabilidadeCruzamento = 70
 	ag.probabilidadeMutacao = 10
-	nrGeracoes = 50000
+	nrGeracoes = 5000
 
 	
 	print "***********  populacao inicial    ***************"
