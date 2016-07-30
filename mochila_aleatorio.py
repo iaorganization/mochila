@@ -50,7 +50,7 @@ def simulacaoAleatoria1():
     duracao = time.time() - inicio_execucao;
     print duracao
 
-def simulacaoAleatoria2(totalSimulacoes,totalItens):
+def simulacaoAleatoria2(totalSimulacoes):
     pesosLidos,valoresLidos,pesoMaximo = readConfigurationFile("mochila2.txt")
     melhorCromossomo = Cromossomo(len(pesosLidos))
     melhorCromossomo.setFitness(0)
@@ -59,9 +59,11 @@ def simulacaoAleatoria2(totalSimulacoes,totalItens):
         calculaFitness(cromo,pesosLidos,valoresLidos,pesoMaximo)
         if(cromo.getFitness() > melhorCromossomo.getFitness()):
             melhorCromossomo = cromo
-        # if (i % 10 == 0):
-        print cromo.toString()
-    print "\n"+melhorCromossomo.toString() + ", \n"+getConfiguracaoMochila(melhorCromossomo,pesosLidos,valoresLidos)
+        if (i % 100 == 0):
+            # print "\t"+str(i)
+            sys.stdout.write("\r"+str(int((100*i)/totalSimulacoes))+" %")
+            sys.stdout.flush()
+    print getConfiguracaoMochila(melhorCromossomo,pesosLidos,valoresLidos)
     
 
 def calculaFitness(cromossomo,pesosLidos,valoresLidos,pesoMaximo):
@@ -74,7 +76,7 @@ def calculaFitness(cromossomo,pesosLidos,valoresLidos,pesoMaximo):
             if(pesoTotal > pesoMaximo):
                 cromossomo.setFitness(0)
             else:
-                cromossomo.setFitness(1.0*valorTotal-0.0*pesoTotal)
+                cromossomo.setFitness(0.7*valorTotal-0.3*pesoTotal)
 
 def readConfigurationFile(fileName):
     file = open(fileName,"r")
@@ -90,9 +92,6 @@ def readConfigurationFile(fileName):
     valores = map(int,valores)
     pesoMaximo = dados[2]
     pesoMaximo = int(pesoMaximo)
-    print pesos
-    print valores
-    print pesoMaximo
     return pesos,valores,pesoMaximo
 
 def getConfiguracaoMochila(cromossomo,pesosLidos,valoresLidos):
@@ -104,4 +103,4 @@ def getConfiguracaoMochila(cromossomo,pesosLidos,valoresLidos):
             valorTotal += valoresLidos[i]
     return "peso: " + str(pesoTotal)+", valor: "+ str(valorTotal) + ", fitness: " + str(cromossomo.fitness)
 
-simulacaoAleatoria2(50000,5)
+simulacaoAleatoria2(50000)
