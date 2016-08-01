@@ -76,7 +76,7 @@ def calculaFitness(cromossomo,pesosLidos,valoresLidos,pesoMaximo):
             if(pesoTotal > pesoMaximo):
                 cromossomo.setFitness(0)
             else:
-                cromossomo.setFitness(0.7*valorTotal-0.3*pesoTotal)
+                cromossomo.setFitness(0.9*valorTotal-0.1*pesoTotal)
 
 def readConfigurationFile(fileName):
     file = open(fileName,"r")

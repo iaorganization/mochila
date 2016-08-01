@@ -46,13 +46,13 @@ if __name__ == '__main__':
 	# writeConfigurationFile("mochila2.txt",1000,100)
 	pesos,valores,pesoMaximo = readConfigurationFile("mochila2.txt")
 
-	ag = AlgoritmoGenetico(len(pesos),10)
+	ag = AlgoritmoGenetico(len(pesos),100)
 	ag.pesos = pesos
 	ag.valores = valores
 	ag.pesoMaximo = pesoMaximo
-	ag.probabilidadeCruzamento = 70
+	ag.probabilidadeCruzamento = 90
 	ag.probabilidadeMutacao = 10
-	nrGeracoes = 5000
+	nrGeracoes = 50000
 
 	
 	print "***********  populacao inicial    ***************"
