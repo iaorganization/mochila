@@ -60,7 +60,7 @@ class AlgoritmoGenetico:
 					pesoTotal += self.pesos[i]
 					valorTotal += self.valores[i]
 			if(pesoTotal > self.pesoMaximo):
-				cromossomo.setFitness(0)
+				cromossomo.setFitness(valorTotal/2)
 			else:
 				cromossomo.setFitness(0.9*valorTotal-0.1*pesoTotal)
 
