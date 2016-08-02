@@ -192,6 +192,7 @@ def PSA():
             GMelhor=i;
             break;
     while not Feito:
+        print " epoca: "+ str(Epoca)
         # Two conditions can end this loop:
         # if the maximum number of epochs allowed has been reached, or,
         # if the Target value has been found.
@@ -207,7 +208,7 @@ def PSA():
                      
 
                 #sys.stdout.write(str(bin(testa_dados(i)))+ "\n")
-                sys.stdout.write(str(testa_dados(i))+ "\n")
+                # sys.stdout.write(str(testa_dados(i))+ "\n")
                 if testa_dados(i) == Alvo:
                     Feito = True
             

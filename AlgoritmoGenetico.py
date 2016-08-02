@@ -55,19 +55,21 @@ class AlgoritmoGenetico:
 		for cromossomo in self.populacao:
 			pesoTotal=0
 			valorTotal=0
+			if(cromossomo.getFitness == 0):
+				continue
 			for i in range(0,len(cromossomo.genes)):
 				if(cromossomo.genes[i]==1):
 					pesoTotal += self.pesos[i]
 					valorTotal += self.valores[i]
 			if(pesoTotal > self.pesoMaximo):
-				cromossomo.setFitness(valorTotal/2)
+				cromossomo.setFitness(0)
 			else:
-				cromossomo.setFitness(0.9*valorTotal-0.1*pesoTotal)
+				cromossomo.setFitness(1.0*valorTotal-0.0*pesoTotal)
 
 
 	def criaPopulacaoInicial(self,nrGenes):
 		populacao = []
-		for i in range(0,self.tamanhoPopulacao*100):
+		for i in range(0,self.tamanhoPopulacao*1):
 			cromo = Cromossomo(nrGenes)
 			populacao.append(cromo)
 		return populacao
