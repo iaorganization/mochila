@@ -67,7 +67,7 @@ class AlgoritmoGenetico:
 
 	def criaPopulacaoInicial(self,nrGenes):
 		populacao = []
-		for i in range(0,self.tamanhoPopulacao*1000):
+		for i in range(0,self.tamanhoPopulacao*100):
 			cromo = Cromossomo(nrGenes)
 			populacao.append(cromo)
 		return populacao
