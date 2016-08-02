@@ -43,7 +43,7 @@ if __name__ == '__main__':
 	print "Lendo arquivo de entrada de dados"
 	pesos,valores,pesoMaximo = readConfigurationFile("mochila2.txt")
 	print "Criando a populacao inicial..."
-	ag = AlgoritmoGenetico(len(pesos),100)
+	ag = AlgoritmoGenetico(len(pesos),1000)
 	ag.pesos = pesos
 	ag.valores = valores
 	ag.pesoMaximo = pesoMaximo

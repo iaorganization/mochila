@@ -3,28 +3,52 @@ import math
 import sys
 import time
 
-Alvo= 210  #Alvo que se quer atingir
-NmaxEntradas = 10 #Numero maximo de entradas
-NmaxParticulas = 10 #Numero maximo de particulas
-Velocidade = 10 #Velocidade maxima de mudanca de iteracoes
-PesoMaximo = 7;
 
-NmaxEpocas = 100; #Numero maximo de epocas
+def getValorMaximo(valores):
+    soma=0
+    for i in valores:
+        soma+=i
+    print "Valor maximo: " + str(soma) 
+    return soma
+
+def readConfigurationFile(fileName):
+    file = open(fileName,"r")
+    dados=[]
+    for line in file:
+        dados.append(line)
+
+    pesos = dados[0]
+    pesos = pesos.split(",")
+    pesos = map(int,pesos)
+    valores = dados[1]
+    valores = valores.split(",")
+    valores = map(int,valores)
+    pesoMaximo = dados[2]
+    pesoMaximo = int(pesoMaximo)
+    return pesos,valores,pesoMaximo
+
+
+NmaxParticulas = 20000 #Numero maximo de particulas
+Velocidade = 10 #Velocidade maxima de mudanca de iteracoes
+# PesoMaximo = 50;
+
+NmaxEpocas = 5000; #Numero maximo de epocas
 
 LimiteInferior = 0 #Limitante minimo para a geracao de dados aleatorios
 LimiteSuperior = 2# Limitante maximo para a geracao de dados aleatorios
 
-
-Valores=[2,3,4,5,6,7,8,9,10,11]
-Pesos=[1,2,3,4,5,6,7,8,9,10]
-
+Pesos,Valores,PesoMaximo = readConfigurationFile("mochila2.txt")
+# Valores=[2,3,4,5,6,7,8,9,10,11]
+# Pesos=  [1,2,3,4,5,6,7,8,9,10]
+NmaxEntradas = len(Valores) #Numero maximo de entradas
+Alvo= getValorMaximo(Valores)  #Alvo que se quer atingir: soma dos valores
 
 Particulas = []
 
 class Particula:
     def __init__(self):
         self.velocidade = 0.0
-        self.dados = [0] * NmaxEpocas
+        self.dados = [0] * NmaxEntradas
         self.melhorParticula = 0
        
     def get_velocidade(self):
@@ -45,7 +69,7 @@ class Particula:
     def set_melhorParticula(self, valor):
         self.melhorParticula = valor
 
-  
+
 
 def inicializa_particula():
     for i in range(NmaxParticulas):
@@ -157,32 +181,29 @@ def PSA():
     Passou= NmaxParticulas #Particulas que passaram do limite de peso
     Feito = False
 
-
     while Passou==NmaxParticulas:
         inicializa_particula()
         for i in range(NmaxParticulas):
             if testa_peso(i)<=PesoMaximo:
                 Passou+=1;
 
-
     for i in range(NmaxParticulas):
         if testa_peso(i)<=PesoMaximo:
             GMelhor=i;
             break;
-
     while not Feito:
         # Two conditions can end this loop:
         # if the maximum number of epochs allowed has been reached, or,
         # if the Target value has been found.
         if Epoca < NmaxEpocas:
             for i in range(NmaxParticulas):
-                for j in range(NmaxEntradas):
-                    if j < NmaxEntradas - 1:
-                        sys.stdout.write("(") 
-                        sys.stdout.write(str(Particulas[i].get_dados(j)) + " * "+ str(Valores[j]) + ") + ")
-                    else:
-                        sys.stdout.write("(") 
-                        sys.stdout.write(str(Particulas[i].get_dados(j)) + " * "+ str(Valores[j]) + ") = ")
+                # for j in range(NmaxEntradas):
+                #     if j < NmaxEntradas - 1:
+                #         sys.stdout.write("(") 
+                #         sys.stdout.write(str(Particulas[i].get_dados(j)) + " * "+ str(Valores[j]) + ") + ")
+                #     else:
+                #         sys.stdout.write("(") 
+                #         sys.stdout.write(str(Particulas[i].get_dados(j)) + " * "+ str(Valores[j]) + ") = ")
                      
 
                 #sys.stdout.write(str(bin(testa_dados(i)))+ "\n")
@@ -196,8 +217,6 @@ def PSA():
                 if testa_peso(GTesteMelhor) <= PesoMaximo:
                     GMelhor = GTesteMelhor
             
-                        
-            
             
             retorna_velocidade(GMelhor)
             
@@ -205,9 +224,7 @@ def PSA():
             
             sys.stdout.write("\n Numero de epocas: " + str(Epoca));
             sys.stdout.write("\n")
-            sys.stdout.write("Melhor: " + str(GMelhor))
-            sys.stdout.write("\n Peso maximo dessa geracao: "+ str(testa_peso(GMelhor)) + "\n");
-            
+            sys.stdout.write("\n Peso: "+ str(testa_peso(GMelhor)) + ", Valor: " + str(testa_dados(GMelhor))+"\n");
             
             Epoca += 1
         else:
@@ -226,15 +243,15 @@ def imprime():
     
     # Print it.
     if Alvo1 < len(Particulas):
-        for i in range(NmaxEntradas):
-            if i < NmaxEntradas - 1:
-                sys.stdout.write("(") 
-                sys.stdout.write(str(Particulas[Alvo1].get_dados(i)) + " * "+ str(Valores[i]) + ") + ")
-            else:
-                sys.stdout.write("(") 
-                sys.stdout.write(str(Particulas[Alvo1].get_dados(i)) + " * "+ str(Valores[i]) + ") eh o mais proximo de satisfazer o prblema")
-             #if i >= NmaxEntradas - 1:
-                #sys.stdout.write(str(bin(Alvo)))
+        # for i in range(NmaxEntradas):
+        #     if i < NmaxEntradas - 1:
+        #         sys.stdout.write("(") 
+        #         sys.stdout.write(str(Particulas[Alvo1].get_dados(i)) + " * "+ str(Valores[i]) + ") + ")
+        #     else:
+        #         sys.stdout.write("(") 
+        #         sys.stdout.write(str(Particulas[Alvo1].get_dados(i)) + " * "+ str(Valores[i]) + ") eh o mais proximo de satisfazer o prblema")
+        #      #if i >= NmaxEntradas - 1:
+        #         #sys.stdout.write(str(bin(Alvo)))
         
         sys.stdout.write("\n")
     else:
