@@ -1,3 +1,4 @@
+from Particula import Particula
 import random
 import math
 import sys
@@ -28,11 +29,11 @@ def readConfigurationFile(fileName):
     return pesos,valores,pesoMaximo
 
 
-NmaxParticulas = 20000 #Numero maximo de particulas
-Velocidade = 10 #Velocidade maxima de mudanca de iteracoes
+nMaxParticulas = 20000 #Numero maximo de particulas
+velocidade = 10 #velocidade maxima de mudanca de iteracoes
 # PesoMaximo = 50;
 
-NmaxEpocas = 5000; #Numero maximo de epocas
+nMaxEpocas = 5000; #Numero maximo de epocas
 
 LimiteInferior = 0 #Limitante minimo para a geracao de dados aleatorios
 LimiteSuperior = 2# Limitante maximo para a geracao de dados aleatorios
@@ -45,35 +46,13 @@ Alvo= getValorMaximo(Valores)  #Alvo que se quer atingir: soma dos valores
 
 Particulas = []
 
-class Particula:
-    def __init__(self):
-        self.velocidade = 0.0
-        self.dados = [0] * NmaxEntradas
-        self.melhorParticula = 0
-       
-    def get_velocidade(self):
-        return self.velocidade
 
-    def set_velocidade(self, resultadoVelocidade):
-        self.velocidade = resultadoVelocidade
-
-    def get_dados(self, indice):
-        return self.dados[indice]
-
-    def set_dados(self, indice, valor):
-        self.dados[indice] = valor
-
-    def get_melhorParticula(self):
-        return self.melhorParticula
-
-    def set_melhorParticula(self, valor):
-        self.melhorParticula = valor
 
 
 
 def inicializa_particula():
-    for i in range(NmaxParticulas):
-        NovaParticula = Particula()
+    for i in range(nMaxParticulas):
+        NovaParticula = Particula(NmaxEntradas)
         Total = 0
         for j in range(NmaxEntradas):
             NovaParticula.set_dados(j, random.randrange(LimiteInferior, LimiteSuperior))
@@ -81,24 +60,19 @@ def inicializa_particula():
         
         NovaParticula.set_melhorParticula(Total)
         Particulas.append(NovaParticula)
-    return
 
-def testa_dados(Indice):
+
+def getValorParticula(Indice):
     Total = 0
     for i in range(NmaxEntradas):
         Total += Particulas[Indice].get_dados(i)*Valores[i]
-            #if testa_peso(Indice) > PesoMaximo:
-            #Total= PesoMaximo-testa_peso(Indice);
-            
-
     return Total
 
-def testa_peso(Indice):
+
+def getPesoParticula(Indice):
     Peso = 0
-    
     for i in range(NmaxEntradas):
         Peso += Particulas[Indice].get_dados(i)*Pesos[i]
-    
     return Peso
     
     
@@ -111,11 +85,11 @@ def retorna_minimo():
     while not Feito:
         NovoMinimo = False
         
-        for i in range(NmaxParticulas):
+        for i in range(nMaxParticulas):
             if i != Minimo:
                 # The minimum has to be in relation to the Target.
-                if math.fabs(Alvo - testa_dados(i)) < math.fabs(Alvo - testa_dados(Minimo)):
-                    if testa_peso(i) <= PesoMaximo:
+                if math.fabs(Alvo - getValorParticula(i)) < math.fabs(Alvo - getValorParticula(Minimo)):
+                    if getPesoParticula(i) <= PesoMaximo:
                         Minimo = i
                         NovoMinimo = True
         
@@ -125,7 +99,7 @@ def retorna_minimo():
     return Minimo
     
     
-def retorna_velocidade(MelhorIndice):
+def atualizaVelocidade(MelhorIndice):
     # from Kennedy & Eberhart(1995).
     #   vx[][] = vx[][] + 2 * rand() * (pbestx[][] - presentx[][]) + 2 * rand() * (pbestx[][gbest] - presentx[][])
     
@@ -133,28 +107,27 @@ def retorna_velocidade(MelhorIndice):
     MelhorResultado = 0
     Valor = 0.0
     
-    MelhorResultado = testa_dados(MelhorIndice)
+    MelhorResultado = getValorParticula(MelhorIndice)
     
-    for i in range(NmaxParticulas):
-        ResultadosTeste = testa_dados(i)
+    for i in range(nMaxParticulas):
+        ResultadosTeste = getValorParticula(i)
         Valor = Particulas[i].get_velocidade() + 2 * random.random() * (Particulas[i].get_melhorParticula() - ResultadosTeste) + 2 * random.random() * (MelhorResultado - ResultadosTeste)
         
-        if Valor > Velocidade:
-            Particulas[i].set_velocidade(Velocidade)
-        elif Valor< - Velocidade:
-            Particulas[i].set_velocidade(-Velocidade)
+        if Valor > velocidade:
+            Particulas[i].set_velocidade(velocidade)
+        elif Valor< - velocidade:
+            Particulas[i].set_velocidade(-velocidade)
         else:
             Particulas[i].set_velocidade(Valor)
     
-    return
 
 def sigmoid(vid):
     y=1/(1+ math.exp(-vid))
     return y
 
 
-def atualiza_particulas (MelhorIndice):
-    for i in range(NmaxParticulas):
+def atualizaParticulas (MelhorIndice):
+    for i in range(nMaxParticulas):
         for j in range(NmaxEntradas):
             if Particulas[i].get_dados(j) != Particulas[MelhorIndice].get_dados(j):
                 # Mudanca para o discreto
@@ -163,14 +136,10 @@ def atualiza_particulas (MelhorIndice):
                 else:
                     Particulas[i].set_dados(j, 0)
                 
-                
-        
         # Check pBest value.
-        Total = testa_dados(i)
+        Total = getValorParticula(i)
         if math.fabs(Alvo - Total) < Particulas[i].get_melhorParticula():
             Particulas[i].set_melhorParticula(Total)
-    
-    return
 
 
 def PSA():
@@ -178,89 +147,57 @@ def PSA():
     GTesteMelhor = 0
     Particula1 = None
     Epoca = 0
-    Passou= NmaxParticulas #Particulas que passaram do limite de peso
+    Passou= nMaxParticulas #Particulas que passaram do limite de peso
     Feito = False
 
-    while Passou==NmaxParticulas:
+    while Passou==nMaxParticulas:
         inicializa_particula()
-        for i in range(NmaxParticulas):
-            if testa_peso(i)<=PesoMaximo:
+        for i in range(nMaxParticulas):
+            if getPesoParticula(i)<=PesoMaximo:
                 Passou+=1;
 
-    for i in range(NmaxParticulas):
-        if testa_peso(i)<=PesoMaximo:
+    for i in range(nMaxParticulas):
+        if getPesoParticula(i)<=PesoMaximo:
             GMelhor=i;
             break;
+
     while not Feito:
         print " epoca: "+ str(Epoca)
-        # Two conditions can end this loop:
-        # if the maximum number of epochs allowed has been reached, or,
-        # if the Target value has been found.
-        if Epoca < NmaxEpocas:
-            for i in range(NmaxParticulas):
-                # for j in range(NmaxEntradas):
-                #     if j < NmaxEntradas - 1:
-                #         sys.stdout.write("(") 
-                #         sys.stdout.write(str(Particulas[i].get_dados(j)) + " * "+ str(Valores[j]) + ") + ")
-                #     else:
-                #         sys.stdout.write("(") 
-                #         sys.stdout.write(str(Particulas[i].get_dados(j)) + " * "+ str(Valores[j]) + ") = ")
-                     
-
-                #sys.stdout.write(str(bin(testa_dados(i)))+ "\n")
-                # sys.stdout.write(str(testa_dados(i))+ "\n")
-                if testa_dados(i) == Alvo:
+        if Epoca < nMaxEpocas:
+            for i in range(nMaxParticulas):
+                if getValorParticula(i) == Alvo:
                     Feito = True
             
             GTesteMelhor = retorna_minimo()
             Particula1 = Particulas[GMelhor]
-            if math.fabs(Alvo - testa_dados(GTesteMelhor)) < math.fabs(Alvo - testa_dados(GMelhor)):
-                if testa_peso(GTesteMelhor) <= PesoMaximo:
+            if math.fabs(Alvo - getValorParticula(GTesteMelhor)) < math.fabs(Alvo - getValorParticula(GMelhor)):
+                if getPesoParticula(GTesteMelhor) <= PesoMaximo:
                     GMelhor = GTesteMelhor
             
             
-            retorna_velocidade(GMelhor)
-            
-            atualiza_particulas(GMelhor)
+            atualizaVelocidade(GMelhor)
+            atualizaParticulas(GMelhor)
             
             sys.stdout.write("\n Numero de epocas: " + str(Epoca));
-            sys.stdout.write("\n")
-            sys.stdout.write("\n Peso: "+ str(testa_peso(GMelhor)) + ", Valor: " + str(testa_dados(GMelhor))+"\n");
+            sys.stdout.write("\n Peso: "+ str(getPesoParticula(GMelhor)) + ", Valor: " + str(getValorParticula(GMelhor))+"\n");
             
             Epoca += 1
         else:
             Feito = True
-    
     return
 
 # Imprime o resultado na tela
 def imprime():
-    # Find solution particle.
     Alvo1 = 0
     
     for i in range(len(Particulas)):
-        if testa_dados(i) == Alvo:
+        if getValorParticula(i) == Alvo:
             Alvo1 = i
     
-    # Print it.
     if Alvo1 < len(Particulas):
-        # for i in range(NmaxEntradas):
-        #     if i < NmaxEntradas - 1:
-        #         sys.stdout.write("(") 
-        #         sys.stdout.write(str(Particulas[Alvo1].get_dados(i)) + " * "+ str(Valores[i]) + ") + ")
-        #     else:
-        #         sys.stdout.write("(") 
-        #         sys.stdout.write(str(Particulas[Alvo1].get_dados(i)) + " * "+ str(Valores[i]) + ") eh o mais proximo de satisfazer o prblema")
-        #      #if i >= NmaxEntradas - 1:
-        #         #sys.stdout.write(str(bin(Alvo)))
-        
         sys.stdout.write("\n")
     else:
-        sys.stdout.write("\nSolucaoo nao encontrada.")
-        
-    
-
-    
+        sys.stdout.write("\nSolucao nao encontrada.")
     return
 
 
