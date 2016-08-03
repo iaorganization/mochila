@@ -125,6 +125,9 @@ class AlgoritmoGenetico:
 		else:
 			return cromossomo2
 
+	def roleta(self):
+		
+
 	def muta(self):
 		best = self.getMelhorIndividuo()
 		for cromossomo in self.populacao:
