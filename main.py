@@ -67,6 +67,7 @@ if __name__ == '__main__':
 		ag.seleciona()
 		# ag.imprimePopulacao()
 		# print "coletando melhores individuos"
-		ag.imprime_n_melhoresIndividuos(3)
+		print ag.getConfiguracaoMochila(ag.getMelhorIndividuo())
+		# ag.imprime_n_melhoresIndividuos(3)
 
 

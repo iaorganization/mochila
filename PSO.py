@@ -162,7 +162,7 @@ def PSA():
             break;
 
     while not Feito:
-        print " epoca: "+ str(Epoca)
+        print "**********    Epoca: "+ str(Epoca) + "    **************"
         if Epoca < nMaxEpocas:
             for i in range(nMaxParticulas):
                 if getValorParticula(i) == Alvo:
@@ -178,8 +178,7 @@ def PSA():
             atualizaVelocidade(GMelhor)
             atualizaParticulas(GMelhor)
             
-            sys.stdout.write("\n Numero de epocas: " + str(Epoca));
-            sys.stdout.write("\n Peso: "+ str(getPesoParticula(GMelhor)) + ", Valor: " + str(getValorParticula(GMelhor))+"\n");
+            sys.stdout.write("Peso: "+ str(getPesoParticula(GMelhor)) + ", Valor: " + str(getValorParticula(GMelhor))+"\n\n");
             
             Epoca += 1
         else:

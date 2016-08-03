@@ -37,21 +37,23 @@ class AlgoritmoGenetico:
 		genes4 = cromo2.genes[0:pontoCorte1] + cromo1.genes[pontoCorte1:numGenes] 
 		genes5 = cromo1.genes[0:pontoCorte2] + cromo2.genes[pontoCorte2:numGenes] 
 		genes6 = cromo2.genes[0:pontoCorte2] + cromo1.genes[pontoCorte2:numGenes]
-		filho1 = Cromossomo(self.nrGenes)
-		filho2 = Cromossomo(self.nrGenes)
-		filho3 = Cromossomo(self.nrGenes)
-		filho4 = Cromossomo(self.nrGenes)
-		filho5 = Cromossomo(self.nrGenes)
-		filho6 = Cromossomo(self.nrGenes)
-		filho1.genes = genes1
-		filho2.genes = genes2
-		filho3.genes = genes3
-		filho4.genes = genes4
-		filho5.genes = genes5
-		filho6.genes = genes6
-		return filho1,filho2,filho3,filho4,filho5,filho6
 
+		listaGenes = [genes1, genes2, genes3, genes4, genes5, genes6]
+		cromossomosFilhos = [Cromossomo(genes) for genes in listaGenes]
+		return cromossomosFilhos
 
+		# filho1 = Cromossomo(self.nrGenes)
+		# filho2 = Cromossomo(self.nrGenes)
+		# filho3 = Cromossomo(self.nrGenes)
+		# filho4 = Cromossomo(self.nrGenes)
+		# filho5 = Cromossomo(self.nrGenes)
+		# filho6 = Cromossomo(self.nrGenes)
+		# filho1.genes = genes1
+		# filho2.genes = genes2
+		# filho3.genes = genes3
+		# filho4.genes = genes4
+		# filho5.genes = genes5
+		# filho6.genes = genes6
 
 	def mutacao(self,cromossomo):
 		for i in range(0,len(cromossomo.genes)):
@@ -96,14 +98,9 @@ class AlgoritmoGenetico:
 		for x in range(0,len(cromossomos),1):
 			if (x+1 >= len(cromossomos)):
 				break
-			f1,f2,f3,f4,f5,f6 = self.cruzamentoDoisPontos(cromossomos[x],cromossomos[x+1])
-			self.populacao.append(f1)
-			self.populacao.append(f2)
-			self.populacao.append(f3)
-			self.populacao.append(f4)
-			self.populacao.append(f5)
-			self.populacao.append(f6)
-
+			cromossomosFilhos = self.cruzamentoDoisPontos(cromossomos[x],cromossomos[x+1])
+			for cromossomo in cromossomosFilhos:
+				self.populacao.append(cromossomo)
 
 	def seleciona(self):
 		self.calculaFitness()
