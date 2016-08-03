@@ -76,7 +76,7 @@ def calculaFitness(cromossomo,pesosLidos,valoresLidos,pesoMaximo):
             if(pesoTotal > pesoMaximo):
                 cromossomo.setFitness(0)
             else:
-                cromossomo.setFitness(0.9*valorTotal-0.1*pesoTotal)
+                cromossomo.setFitness(1.0*valorTotal-0.0*pesoTotal)
 
 def readConfigurationFile(fileName):
     file = open(fileName,"r")
@@ -103,4 +103,4 @@ def getConfiguracaoMochila(cromossomo,pesosLidos,valoresLidos):
             valorTotal += valoresLidos[i]
     return "peso: " + str(pesoTotal)+", valor: "+ str(valorTotal) + ", fitness: " + str(cromossomo.fitness)
 
-simulacaoAleatoria2(50000)
+simulacaoAleatoria2(1000000)
