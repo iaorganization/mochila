@@ -2,11 +2,11 @@ import itertools
 import random
 
 
-class Cromossomo:
+class Cromossomo(object):
 
 	newid = itertools.count().next
 
-	def __init__(self, nrGenes, lista=[]):
+	def __init__(self, nrGenes, lista=None):
 		self.id = Cromossomo.newid()
 		self.fitness = 0
 		self.genes = lista
@@ -14,9 +14,11 @@ class Cromossomo:
 		self.inicializa()
 
 	def inicializa(self):
-		if len(self.genes) == 0:
-			for i in range(0,self.nrGenes):
-				self.genes.append(random.randrange(2))
+		if self.genes == None:
+			self.genes = []
+			for i in range(0, self.nrGenes):
+				tempValor = random.randrange(2)
+				self.genes.append(tempValor)
 
 	def setFitness(self,valor):
 		self.fitness = valor
@@ -29,3 +31,4 @@ class Cromossomo:
 
 	def toString(self):
 		return "Genes: " + str(self.genes) + ", Fitness:" +  str(self.fitness) + ", ID: " + str(self.id)
+
