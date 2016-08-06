@@ -3,6 +3,7 @@ import random
 import math
 import sys
 import time
+from FileUtils import FileUtils
 
 
 def getValorMaximo(valores):
@@ -12,21 +13,7 @@ def getValorMaximo(valores):
     print "Valor maximo: " + str(soma) 
     return soma
 
-def readConfigurationFile(fileName):
-    file = open(fileName,"r")
-    dados=[]
-    for line in file:
-        dados.append(line)
 
-    pesos = dados[0]
-    pesos = pesos.split(",")
-    pesos = map(int,pesos)
-    valores = dados[1]
-    valores = valores.split(",")
-    valores = map(int,valores)
-    pesoMaximo = dados[2]
-    pesoMaximo = int(pesoMaximo)
-    return pesos,valores,pesoMaximo
 
 
 nMaxParticulas = 20000 #Numero maximo de particulas
@@ -38,7 +25,8 @@ nMaxEpocas = 5000; #Numero maximo de epocas
 LimiteInferior = 0 #Limitante minimo para a geracao de dados aleatorios
 LimiteSuperior = 2# Limitante maximo para a geracao de dados aleatorios
 
-Pesos,Valores,PesoMaximo = readConfigurationFile("mochila2.txt")
+util = FileUtils()
+Pesos,Valores,PesoMaximo = util.readConfigurationFile("mochila2.txt")
 # Valores=[2,3,4,5,6,7,8,9,10,11]
 # Pesos=  [1,2,3,4,5,6,7,8,9,10]
 NmaxEntradas = len(Valores) #Numero maximo de entradas
