@@ -37,7 +37,7 @@ class AlgoritmoGenetico:
 		genes6 = cromo2.genes[0:pontoCorte2] + cromo1.genes[pontoCorte2:numGenes]
 
 		listaGenes = [genes1, genes2, genes3, genes4, genes5, genes6]
-		cromossomosFilhos = [Cromossomo(genes) for genes in listaGenes]
+		cromossomosFilhos = [Cromossomo(self.nrGenes, genes) for genes in listaGenes]
 		return cromossomosFilhos
 
 	def mutacao(self, cromossomo):
@@ -71,19 +71,21 @@ class AlgoritmoGenetico:
 			populacao.append(cromo)
 		return populacao
 
-	def cruza(self, nrPontosCruzamento=2):
+	def cruza(self, nrPontosCruzamento):
 		cromossomos = []
 		for cromossomo in self.populacao:
 			prob = random.randrange(100)
 			if(prob <= self.probabilidadeCruzamento): # verifica se o cromossomo ira para o cruzamento
 				cromossomos.append(cromossomo)
+
 		for x in range(0, len(cromossomos)):
 			if (x + 1 >= len(cromossomos)):
 				break
 			if nrPontosCruzamento == 2:
 				cromossomosFilhos = self.cruzamentoDoisPontos(cromossomos[x], cromossomos[x + 1])
-			elif nrPontosCruzamento == 1:
-				cromossomosFilhos = self.cruzamentoUmPonto(cromossomos[x], cromossomos[x + 1])
+			else:
+				if nrPontosCruzamento == 1:
+					cromossomosFilhos = self.cruzamentoUmPonto(cromossomos[x], cromossomos[x + 1])
 			self.populacao.extend(cromossomosFilhos)
 
 	def seleciona(self):
