@@ -12,7 +12,7 @@ import timeit
 class AGMain(object):
 
     def __init__(self):
-        self.mochila = Mochila()
+        self.configuracoesMochila = [] # lista de configuracoes das mochilas (contem os itens com seus pesos e valores)
         self.itensDisponiveis = []
 
     def errorMessage(self):
@@ -85,9 +85,6 @@ class AGMain(object):
             pesoMaximo = int(sys.argv[3])
 
             print "Configurado para %d gerações, %d pontos de cruzamento e mochila com peso máximo %d" %(nrGeracoes, qtdePontosCruzamento, pesoMaximo)
-
-            self.mochila.setPesoMaximo(pesoMaximo)
-
             print "Lendo arquivo de entrada de dados..."
             self.readItensFromFile("itens.csv")
 
@@ -95,7 +92,7 @@ class AGMain(object):
             ag = AlgoritmoGenetico(len(self.itensDisponiveis), 100)
             ag.pesos = [item.peso for item in self.itensDisponiveis]
             ag.valores = [item.valor for item in self.itensDisponiveis]
-            ag.pesoMaximo = self.mochila.pesoMaximo
+            ag.pesoMaximo = pesoMaximo
             ag.probabilidadeCruzamento = 95
             ag.probabilidadeMutacao = 5
 
@@ -107,7 +104,21 @@ class AGMain(object):
                 ag.cruza(qtdePontosCruzamento)
                 ag.muta()
                 ag.seleciona()
+                tempPesos, tempValores = ag.getMelhoresPesosValores(ag.getMelhorIndividuo())
+                self.configuracoesMochila.append(Mochila(tempPesos, tempValores))
                 print ag.getConfiguracaoMochila(ag.getMelhorIndividuo())
+
+            ultimaMochila = self.configuracoesMochila[nrGeracoes - 1]
+            tempFile = open("ultimaMochila.csv", "w")
+            tempFile.write("GERAÇÃO: " + str(nrGeracoes)
+                + "\nPESO TOTAL: " + str(ultimaMochila.getPesoOcupado())
+                + "\nVALOR TOTAL: " + str(ultimaMochila.getValorTotal())
+                + "\nQUANTIDADE DE ITENS: " + str(ultimaMochila.getNrItens())
+                + "\nLISTA DE ITENS (NUMERO, PESO, VALOR):\n")
+
+            for index, item in enumerate(ultimaMochila.itens):
+                tempFile.write(str(index) + ", " + str(item.peso) + ", " + str(item.valor) + "\n")
+            tempFile.close()
 
             elapsed = timeit.default_timer() - start_time
             self.successMessage(elapsed)

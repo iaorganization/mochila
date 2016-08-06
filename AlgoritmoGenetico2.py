@@ -123,7 +123,16 @@ class AlgoritmoGenetico:
 		for cromossomo in self.populacao:
 			print cromossomo.toString() + " " + self.getConfiguracaoMochila(cromossomo)
 
-	def getConfiguracaoMochila(self,cromossomo):
+	def getMelhoresPesosValores(self, cromossomo):
+		pesos = []
+		valores = []
+		for i in range(len(cromossomo.genes)):
+			if cromossomo.genes[i] == 1:
+				pesos.append(self.pesos[i])
+				valores.append(self.valores[i])
+		return pesos, valores
+
+	def getConfiguracaoMochila(self, cromossomo):
 		pesoTotal = 0
 		valorTotal = 0
 		for i in range(0, len(cromossomo.genes)):
