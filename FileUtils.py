@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from Mochila import Item
+import random
+
 class FileUtils(object):
 
     def __init__(self):

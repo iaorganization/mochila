@@ -78,14 +78,13 @@ class AlgoritmoGenetico:
 			if(prob <= self.probabilidadeCruzamento): # verifica se o cromossomo ira para o cruzamento
 				cromossomos.append(cromossomo)
 
-		for x in range(0, len(cromossomos)):
+		for x in range(len(cromossomos)):
 			if (x + 1 >= len(cromossomos)):
 				break
 			if nrPontosCruzamento == 2:
 				cromossomosFilhos = self.cruzamentoDoisPontos(cromossomos[x], cromossomos[x + 1])
-			else:
-				if nrPontosCruzamento == 1:
-					cromossomosFilhos = self.cruzamentoUmPonto(cromossomos[x], cromossomos[x + 1])
+			elif nrPontosCruzamento == 1:
+				cromossomosFilhos = self.cruzamentoUmPonto(cromossomos[x], cromossomos[x + 1])
 			self.populacao.extend(cromossomosFilhos)
 
 	def seleciona(self):
