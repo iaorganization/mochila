@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+
 class FileUtils(object):
 
-	def __init__(self):
-		pass
+    def __init__(self):
+        pass
 
     def generateRandomItens(self, nrItens, pesoMaximoUnitario, valorMaximmoUnitario):
         """ Gera itens com pesos e valores aleatórios.
@@ -12,7 +14,7 @@ class FileUtils(object):
                 valorMaximoUnitário: valor máximo que cada item pode ter
 
             Returns:
-            	itensDisponiveis: uma lista com os itens gerados
+                itensDisponiveis: uma lista com os itens gerados
         """
         itensDisponiveis = [] # apaga todos os itens disponíveis
         for i in range(nrItens):
@@ -22,23 +24,23 @@ class FileUtils(object):
             itensDisponiveis.append(item)
         return itensDisponiveis
 
-	def readConfigurationFile(fileName):
-	    tempFile = open(fileName,"r")
-	    dados=[]
-	    for line in tempFile:
-	        dados.append(line)
+    def readConfigurationFile(self, fileName):
+        tempFile = open(fileName,"r")
+        dados=[]
+        for line in tempFile:
+            dados.append(line)
 
-	    pesos = dados[0]
-	    pesos = pesos.split(",")
-	    pesos = map(int,pesos)
-	    valores = dados[1]
-	    valores = valores.split(",")
-	    valores = map(int,valores)
-	    pesoMaximo = dados[2]
-	    pesoMaximo = int(pesoMaximo)
+        pesos = dados[0]
+        pesos = pesos.split(",")
+        pesos = map(int,pesos)
+        valores = dados[1]
+        valores = valores.split(",")
+        valores = map(int,valores)
+        pesoMaximo = dados[2]
+        pesoMaximo = int(pesoMaximo)
 
-	    tempFile.close()
-	    return pesos, valores, pesoMaximo
+        tempFile.close()
+        return pesos, valores, pesoMaximo
 
     def readItensFromFile(self, fileName):
         """ Lê itens de um arquivo csv e insere em itensDisponiveis.
@@ -48,7 +50,7 @@ class FileUtils(object):
                 fileName: nome do arquivo contendo os itens
 
             Returns:
-            	itensDisponiveis: uma lista de objetos da classe Item
+                itensDisponiveis: uma lista de objetos da classe Item
         """
         itensDisponiveis = [] # reseta itens disponíveis
         tempFile = open(fileName)
@@ -64,32 +66,32 @@ class FileUtils(object):
 
         return itensDisponiveis
 
-    def writeConfigurationFile(fileName, qtde, rangeMax):
-		tempFile = open(fileName,"w")
-		ag = AlgoritmoGenetico(qtde, 1)
-		ag.simulaValores(qtde, rangeMax)
-		ag.simulaPesos(qtde, rangeMax)
-		pesoMaximo = 0
-		for peso in ag.pesos:
-			pesoMaximo += peso
-		print pesoMaximo
-		pesoMaximo = int(0.7 * pesoMaximo)
-		valores = ','.join(str(e) for e in ag.valores)
-		pesos = ','.join(str(e) for e in ag.pesos)
-		tempFile.write(pesos + "\n")
-		tempFile.write(valores + "\n")
-		tempFile.write(str(pesoMaximo))
-		tempFile.close()
+    def writeConfigurationFile(self, fileName, qtde, rangeMax):
+        tempFile = open(fileName,"w")
+        ag = AlgoritmoGenetico(qtde, 1)
+        ag.simulaValores(qtde, rangeMax)
+        ag.simulaPesos(qtde, rangeMax)
+        pesoMaximo = 0
+        for peso in ag.pesos:
+            pesoMaximo += peso
+        print pesoMaximo
+        pesoMaximo = int(0.7 * pesoMaximo)
+        valores = ','.join(str(e) for e in ag.valores)
+        pesos = ','.join(str(e) for e in ag.pesos)
+        tempFile.write(pesos + "\n")
+        tempFile.write(valores + "\n")
+        tempFile.write(str(pesoMaximo))
+        tempFile.close()
 
     def writeItensFile(self, itensDisponiveis, fileName):
-    	""" Grava itens em um arquivo.
-    		O formato do arquivo é csv.
-    		Um item por linha, sendo representado por 'peso, valor'.
+        """ Grava itens em um arquivo.
+            O formato do arquivo é csv.
+            Um item por linha, sendo representado por 'peso, valor'.
 
-    		Args:
-    			itensDisponiveis: lista de itens a ser gravada em um arquivo
-    			fileName: nome do arquivo
-    	"""
+            Args:
+                itensDisponiveis: lista de itens a ser gravada em um arquivo
+                fileName: nome do arquivo
+        """
         tempFile = open(fileName,"w")
         for i in itensDisponiveis:
             tempFile.write(str(i.peso) + "," + str(i.valor) + "\n")
