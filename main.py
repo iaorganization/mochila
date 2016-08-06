@@ -43,7 +43,7 @@ if __name__ == '__main__':
 	print "Lendo arquivo de entrada de dados"
 	pesos,valores,pesoMaximo = readConfigurationFile("mochila2.txt")
 	print "Criando a populacao inicial..."
-	ag = AlgoritmoGenetico(len(pesos),100)
+	ag = AlgoritmoGenetico(len(pesos),10)
 	ag.pesos = pesos
 	ag.valores = valores
 	ag.pesoMaximo = pesoMaximo
@@ -51,11 +51,20 @@ if __name__ == '__main__':
 	ag.probabilidadeMutacao = 5
 	nrGeracoes = 100000
 
+
+	
 	
 	print "***********  populacao inicial    ***************"
 	print "calculando o fitness..."
 	ag.calculaFitness()
+	# ag.populacao[0].setFitness(10.0)
+	# ag.populacao[1].setFitness(20.0)
+	# ag.populacao[2].setFitness(30.0)
+	
+	# ag.populacao[3].setFitness(40.0)
+	# ag.populacao[4].setFitness(50.0)
 	# ag.imprimePopulacao()
+	ag.seleciona()
 
 	for i in range(nrGeracoes):
 		print "\n\n*************  Geracao: "+ str(i) + "   *************" 
@@ -63,6 +72,8 @@ if __name__ == '__main__':
 		ag.cruza()	
 		# print "mutando"
 		ag.muta()
+		# ag.imprimePopulacao()
+		# print "\n\n"
 		# print "selecionando"
 		ag.seleciona()
 		# ag.imprimePopulacao()

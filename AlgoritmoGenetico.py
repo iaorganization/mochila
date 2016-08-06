@@ -1,6 +1,7 @@
 from Cromossomo import Cromossomo
 import random
 from operator import attrgetter
+from multiprocessing import Pool
 
 class AlgoritmoGenetico:
 
@@ -37,19 +38,11 @@ class AlgoritmoGenetico:
 		genes4 = cromo2.genes[0:pontoCorte1] + cromo1.genes[pontoCorte1:numGenes] 
 		genes5 = cromo1.genes[0:pontoCorte2] + cromo2.genes[pontoCorte2:numGenes] 
 		genes6 = cromo2.genes[0:pontoCorte2] + cromo1.genes[pontoCorte2:numGenes]
-		filho1 = Cromossomo(self.nrGenes)
-		filho2 = Cromossomo(self.nrGenes)
-		filho3 = Cromossomo(self.nrGenes)
-		filho4 = Cromossomo(self.nrGenes)
-		filho5 = Cromossomo(self.nrGenes)
-		filho6 = Cromossomo(self.nrGenes)
-		filho1.genes = genes1
-		filho2.genes = genes2
-		filho3.genes = genes3
-		filho4.genes = genes4
-		filho5.genes = genes5
-		filho6.genes = genes6
-		return filho1,filho2,filho3,filho4,filho5,filho6
+		
+		listaGenes = [genes1, genes2, genes3, genes4, genes5, genes6]
+
+		cromossomosFilhos = [Cromossomo(self.nrGenes, genes) for genes in listaGenes]
+		return cromossomosFilhos
 
 
 
@@ -96,13 +89,9 @@ class AlgoritmoGenetico:
 		for x in range(0,len(cromossomos),1):
 			if (x+1 >= len(cromossomos)):
 				break
-			f1,f2,f3,f4,f5,f6 = self.cruzamentoDoisPontos(cromossomos[x],cromossomos[x+1])
-			self.populacao.append(f1)
-			self.populacao.append(f2)
-			self.populacao.append(f3)
-			self.populacao.append(f4)
-			self.populacao.append(f5)
-			self.populacao.append(f6)
+			cromossomos = self.cruzamentoDoisPontos(cromossomos[x],cromossomos[x+1])
+			self.populacao.extend(cromossomos)
+			
 
 
 	def seleciona(self):
@@ -110,23 +99,66 @@ class AlgoritmoGenetico:
 		novaPopulacao=[]
 		best = self.getMelhorIndividuo()					# 
 		novaPopulacao.append(best)		
-		while (len(novaPopulacao)<self.tamanhoPopulacao):					# elitismo
-		# for i in range(self.tamanhoPopulacao):
+		novaPopulacao.extend(self.torneio(self.tamanhoPopulacao/2))
+		novaPopulacao.extend(self.roleta(self.tamanhoPopulacao/2))
+		self.populacao = novaPopulacao
+
+
+	def torneio(self,nrIndividuos):
+		cromossomosVencedores=[]
+		while (len(cromossomosVencedores) < nrIndividuos):					# elitismo
 			c1 = random.randrange(len(self.populacao))
 			c2 = random.randrange(len(self.populacao))
 			if(self.populacao[c1].getFitness() == 0 and self.populacao[c2].getFitness()==0):
 				continue
-			cromossomoVencedor = self.torneio(self.populacao[c1],self.populacao[c2])
-			if cromossomoVencedor not in novaPopulacao:
-				novaPopulacao.append(cromossomoVencedor)
-		self.populacao = novaPopulacao
+			
+			cromossomoVencedor = self.fight(self.populacao[c1],self.populacao[c2])
+			if cromossomoVencedor not in cromossomosVencedores:
+				cromossomosVencedores.append(cromossomoVencedor)
 
+		return cromossomosVencedores
 
-	def torneio(self,cromossomo1,cromossomo2):
+		
+	def fight(self,cromossomo1,cromossomo2):
 		if(cromossomo1.getFitness > cromossomo2.getFitness):
 			return cromossomo1
 		else:
 			return cromossomo2
+
+
+	def roleta(self,nrIndividuos):
+		listaProbabilidadesSelecao=[]
+		listaProbabilidadeParaRoleta=[]
+		selecionados=[]
+		somaValores=0
+		for cromossomo in self.populacao:
+			somaValores+= cromossomo.getFitness()
+
+		for cromossomo in self.populacao:
+			listaProbabilidadesSelecao.append(cromossomo.getFitness()/somaValores)
+
+		listaProbabilidadeParaRoleta.append(listaProbabilidadesSelecao[0])
+		for i in range(1,len(self.populacao)):
+			valor = listaProbabilidadeParaRoleta[i-1] + listaProbabilidadesSelecao[i]
+			listaProbabilidadeParaRoleta.append(valor)
+
+
+		while(len(selecionados) < nrIndividuos):	
+			cromossomoSelecionado = self.giraRoleta(listaProbabilidadeParaRoleta)
+			if cromossomoSelecionado not in selecionados:
+				selecionados.append(cromossomoSelecionado)
+	
+		return selecionados
+
+	def giraRoleta(self,listaProbabilidadeParaRoleta):
+		probSelecao = random.random()
+		if(probSelecao > 0.0 and probSelecao <= listaProbabilidadeParaRoleta[0]):
+			return self.populacao[0]
+			
+		for i in range(1,len(self.populacao)):
+			if(probSelecao > listaProbabilidadeParaRoleta[i-1] and probSelecao <= listaProbabilidadeParaRoleta[i]):
+				return self.populacao[i]
+		
 
 	def muta(self):
 		best = self.getMelhorIndividuo()
@@ -173,4 +205,7 @@ class AlgoritmoGenetico:
 		listaMelhoresIndividuos = self.get_n_melhorsIndividuos(n)
 		for cromossomo in listaMelhoresIndividuos:
 			print self.getConfiguracaoMochila(cromossomo)
+
+
+
 
