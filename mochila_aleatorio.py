@@ -2,6 +2,7 @@ from random import randint
 import sys
 import time
 from Cromossomo import Cromossomo
+from FileUtils import FileUtils
 
 def simulacaoAleatoria1():
     # Dados=  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -51,7 +52,8 @@ def simulacaoAleatoria1():
     print duracao
 
 def simulacaoAleatoria2(totalSimulacoes):
-    pesosLidos,valoresLidos,pesoMaximo = readConfigurationFile("mochila2.txt")
+    util = FileUtils()
+    pesosLidos,valoresLidos,pesoMaximo = util.readConfigurationFile("mochila2.txt")
     melhorCromossomo = Cromossomo(len(pesosLidos))
     melhorCromossomo.setFitness(0)
     for i in range(0,totalSimulacoes):
@@ -78,21 +80,7 @@ def calculaFitness(cromossomo,pesosLidos,valoresLidos,pesoMaximo):
             else:
                 cromossomo.setFitness(1.0*valorTotal-0.0*pesoTotal)
 
-def readConfigurationFile(fileName):
-    file = open(fileName,"r")
-    dados=[]
-    for line in file:
-        dados.append(line)
 
-    pesos = dados[0]
-    pesos = pesos.split(",")
-    pesos = map(int,pesos)
-    valores = dados[1]
-    valores = valores.split(",")
-    valores = map(int,valores)
-    pesoMaximo = dados[2]
-    pesoMaximo = int(pesoMaximo)
-    return pesos,valores,pesoMaximo
 
 def getConfiguracaoMochila(cromossomo,pesosLidos,valoresLidos):
     pesoTotal = 0
