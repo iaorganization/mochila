@@ -10,12 +10,12 @@ if __name__ == '__main__':
 	pesos,valores,pesoMaximo = util.readConfigurationFile("mochila3000.txt")
 
 	print "Criando a populacao inicial..."
-	ag = AlgoritmoGenetico(len(pesos),6)
+	ag = AlgoritmoGenetico(len(pesos),10)
 	ag.pesos = pesos
 	ag.valores = valores
 	ag.pesoMaximo = pesoMaximo
 	ag.probabilidadeCruzamento = 95
-	ag.probabilidadeMutacao = 5
+	ag.probabilidadeMutacao = 1
 	nrGeracoes = 100000
 
 
