@@ -2,6 +2,7 @@
 
 from Mochila import Item
 import random
+from AlgoritmoGenetico import AlgoritmoGenetico
 
 class FileUtils(object):
 
