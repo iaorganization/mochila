@@ -16,7 +16,7 @@ def getValorMaximo(valores):
 
 
 
-nMaxParticulas = 20000 #Numero maximo de particulas
+nMaxParticulas = 30000 #Numero maximo de particulas
 velocidade = 10 #velocidade maxima de mudanca de iteracoes
 # PesoMaximo = 50;
 
