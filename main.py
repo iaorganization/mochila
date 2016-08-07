@@ -5,7 +5,7 @@ from FileUtils import FileUtils
 
 if __name__ == '__main__':
 	util = FileUtils()
-	util.writeConfigurationFile("mochila3000.txt",3000,100)
+	# util.writeConfigurationFile("mochila3000.txt",3000,100)
 	print "Lendo arquivo de entrada de dados"
 	pesos,valores,pesoMaximo = util.readConfigurationFile("mochila3000.txt")
 

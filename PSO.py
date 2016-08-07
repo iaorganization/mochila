@@ -16,7 +16,7 @@ def getValorMaximo(valores):
 
 
 
-nMaxParticulas = 30000 #Numero maximo de particulas
+nMaxParticulas = 20000 #Numero maximo de particulas
 velocidade = 10 #velocidade maxima de mudanca de iteracoes
 # PesoMaximo = 50;
 
@@ -26,7 +26,7 @@ LimiteInferior = 0 #Limitante minimo para a geracao de dados aleatorios
 LimiteSuperior = 2# Limitante maximo para a geracao de dados aleatorios
 
 util = FileUtils()
-Pesos,Valores,PesoMaximo = util.readConfigurationFile("mochila2.txt")
+Pesos,Valores,PesoMaximo = util.readConfigurationFile("mochila3000.txt")
 # Valores=[2,3,4,5,6,7,8,9,10,11]
 # Pesos=  [1,2,3,4,5,6,7,8,9,10]
 NmaxEntradas = len(Valores) #Numero maximo de entradas
