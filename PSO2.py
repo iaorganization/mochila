@@ -14,7 +14,6 @@ def getValorMaximo(valores):
     soma = 0
     for i in valores:
         soma += i
-    print "Valor maximo: " + str(soma)
     return soma
 
 nrMaxEpocas = 5000 # Numero maximo de epocas
@@ -22,8 +21,12 @@ nrMaxParticulas = 20000 # Numero maximo de particulas
 limiteInferior = 0 # Limitante minimo para a geracao de dados aleatorios
 limiteSuperior = 2 # Limitante maximo para a geracao de dados aleatorios
 velocidade = 10 # Velocidade maxima de mudanca de iteracoes
+pesoMaximo = 35000 # Peso máximo que a mochila suporta
 
-pesos, valores, pesoMaximo = fileUtils.readConfigurationFile("mochila2.txt")
+itensDisponiveis = fileUtils.readItensFromFile("itens.csv")
+pesos = [item.peso for item in itensDisponiveis]
+valores = [item.valor for item in itensDisponiveis]
+
 nrMaxEntradas = len(valores) # Numero maximo de entradas
 alvo = getValorMaximo(valores)  # Alvo que se quer atingir, isto é, soma dos valores
 
@@ -121,7 +124,7 @@ def PSA():
     gTesteMelhor = 0
     particula1 = None
     epoca = 0
-    passou= nrMaxParticulas # Particulas que passaram do limite de peso
+    passou = nrMaxParticulas # Particulas que passaram do limite de peso
     feito = False
 
     while passou == nrMaxParticulas:
@@ -136,7 +139,6 @@ def PSA():
             break
 
     while not feito:
-        print "**********    Epoca: "+ str(epoca) + "    **************"
         if epoca < nrMaxEpocas:
             for i in range(nrMaxParticulas):
                 if getValorParticula(i) == alvo:
@@ -150,9 +152,8 @@ def PSA():
 
             atualizaVelocidade(gMelhor)
             atualizaParticulas(gMelhor)
-
+            print "*****  ÉPOCA: "+ str(epoca)
             print "Peso: "+ str(getPesoParticula(gMelhor)) + ", Valor: " + str(getValorParticula(gMelhor))+"\n\n"
-
             epoca += 1
         else:
             feito = True
