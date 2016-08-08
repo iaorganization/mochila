@@ -74,7 +74,7 @@ class AlgoritmoGenetico:
 
 	def criaPopulacaoInicial(self,nrGenes):
 		populacao = []
-		for i in range(0,self.tamanhoPopulacao*1000):
+		for i in range(0,self.tamanhoPopulacao*100):
 			cromo = Cromossomo(nrGenes)
 			populacao.append(cromo)
 		return populacao
@@ -91,6 +91,20 @@ class AlgoritmoGenetico:
 				break
 			cromossomos = self.cruzamentoDoisPontos(cromossomos[x],cromossomos[x+1])
 			self.populacao.extend(cromossomos)
+
+	def cruza2(self):
+		cromossomos=[]
+		for cromossomo in self.populacao:
+			prob = random.randrange(100)
+			if(prob <= self.probabilidadeCruzamento): #verifica se o cromossomo ira para o cruzamento
+				cromossomos.append(cromossomo)
+		for c1 in cromossomos:
+			for c2 in cromossomos:
+				if c1.id == c2.id:
+					continue
+				cromossomos = self.cruzamentoDoisPontos(c1,c2)
+				self.populacao.extend(cromossomos)
+
 			
 
 
@@ -120,7 +134,7 @@ class AlgoritmoGenetico:
 
 		
 	def fight(self,cromossomo1,cromossomo2):
-		if(cromossomo1.getFitness > cromossomo2.getFitness):
+		if(cromossomo1.getFitness() > cromossomo2.getFitness()):
 			return cromossomo1
 		else:
 			return cromossomo2
