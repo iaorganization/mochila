@@ -3,11 +3,12 @@ from FileUtils import FileUtils
 
 
 
+
 if __name__ == '__main__':
 	util = FileUtils()
 	# util.writeConfigurationFile("mochila3000.txt",3000,100)
 	print "Lendo arquivo de entrada de dados"
-	pesos,valores,pesoMaximo = util.readConfigurationFile("mochila3000.txt")
+	pesos,valores,pesoMaximo = util.readConfigurationFile("mochila2.txt")
 
 	print "Criando a populacao inicial..."
 	ag = AlgoritmoGenetico(len(pesos),10)
@@ -27,10 +28,12 @@ if __name__ == '__main__':
 	print "selecionando..."
 	ag.seleciona()
 
+
 	for i in range(nrGeracoes):
 		print "\n\n*************  Geracao: "+ str(i) + "   *************" 
 		ag.cruza()	
 		ag.muta()
 		ag.seleciona()
 		print ag.getConfiguracaoMochila(ag.getMelhorIndividuo())
+
 

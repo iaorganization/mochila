@@ -1,7 +1,7 @@
 from Cromossomo import Cromossomo
 import random
 from operator import attrgetter
-from multiprocessing import Pool
+
 
 class AlgoritmoGenetico:
 
@@ -21,17 +21,17 @@ class AlgoritmoGenetico:
 		pontoCorte = random.randrange(numGenes)
 		genes1 = cromo1.genes[0:pontoCorte] + cromo2.genes[pontoCorte:numGenes]
 		genes2 = cromo2.genes[0:pontoCorte] + cromo1.genes[pontoCorte:numGenes]
-		filho1 = Cromossomo(self.nrGenes)
-		filho2 = Cromossomo(self.nrGenes)
-		filho1.genes = genes1
-		filho2.genes = genes2
-		return filho1,filho2
+
+		listaGenes = [genes1, genes2]
+
+		cromossomosFilhos = [Cromossomo(self.nrGenes, genes) for genes in listaGenes]
+		return cromossomosFilhos
+
 
 	def cruzamentoDoisPontos(self,cromo1,cromo2):
 		numGenes = len(cromo1.genes)
 		pontoCorte1 = random.randrange(numGenes)
 		pontoCorte2 = random.randrange(pontoCorte1, numGenes)
-		# print str(pontoCorte1) + " " + str(pontoCorte2)
 		genes1 = cromo1.genes[0:pontoCorte1] + cromo2.genes[pontoCorte1:pontoCorte2] + cromo1.genes[pontoCorte2:numGenes]
 		genes2 = cromo2.genes[0:pontoCorte1] + cromo1.genes[pontoCorte1:pontoCorte2] + cromo2.genes[pontoCorte2:numGenes]
 		genes3 = cromo1.genes[0:pontoCorte1] + cromo2.genes[pontoCorte1:numGenes] 
@@ -58,18 +58,20 @@ class AlgoritmoGenetico:
 
 	def calculaFitness(self):
 		for cromossomo in self.populacao:
-			pesoTotal=0
-			valorTotal=0
-			if(cromossomo.getFitness == 0):
-				continue
-			for i in range(0,len(cromossomo.genes)):
-				if(cromossomo.genes[i]==1):
-					pesoTotal += self.pesos[i]
-					valorTotal += self.valores[i]
-			if(pesoTotal > self.pesoMaximo):
-				cromossomo.setFitness(0)
-			else:
-				cromossomo.setFitness(1.0*valorTotal-0.0*pesoTotal)
+			self.calculaSomatorio(cromossomo)
+
+
+	def calculaSomatorio(self,cromossomo):
+		pesoTotal=0
+		valorTotal=0
+		for i in range(0,len(cromossomo.genes)):
+			if(cromossomo.genes[i]==1):
+				pesoTotal += self.pesos[i]
+				valorTotal += self.valores[i]
+		if(pesoTotal > self.pesoMaximo):
+			cromossomo.setFitness(0)
+		else:
+			cromossomo.setFitness(1.0*valorTotal-0.0*pesoTotal)
 
 
 	def criaPopulacaoInicial(self,nrGenes):
@@ -92,7 +94,8 @@ class AlgoritmoGenetico:
 			cromossomos = self.cruzamentoDoisPontos(cromossomos[x],cromossomos[x+1])
 			self.populacao.extend(cromossomos)
 
-	def cruza2(self):
+
+	def cruzaTodaPopulacao(self):
 		cromossomos=[]
 		for cromossomo in self.populacao:
 			prob = random.randrange(100)
@@ -180,6 +183,7 @@ class AlgoritmoGenetico:
 			if(best.id != cromossomo.id): #nao executa mutacao no melhor individuo
 				self.mutacao(cromossomo)
 
+
 	
 	def imprimePopulacao(self):
 		print len(self.populacao)
@@ -219,6 +223,11 @@ class AlgoritmoGenetico:
 		listaMelhoresIndividuos = self.get_n_melhorsIndividuos(n)
 		for cromossomo in listaMelhoresIndividuos:
 			print self.getConfiguracaoMochila(cromossomo)
+
+
+
+
+
 
 
 

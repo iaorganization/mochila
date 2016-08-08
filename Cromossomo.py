@@ -27,8 +27,11 @@ class Cromossomo(object):
 		return self.fitness
 
 	def __repr__(self):
-		return ': '.join(['Genes', str(self.genes), 'Fitness', str(self.fitness), 'ID', str(self.id)])
+		pass
+		# return ': '.join('Fitness', str(self.fitness), 'ID', str(self.id)])
 
 	def toString(self):
+		# return ", Fitness:" +  str(self.fitness) + ", ID: " + str(self.id)
 		return "Genes: " + str(self.genes) + ", Fitness:" +  str(self.fitness) + ", ID: " + str(self.id)
+
 
