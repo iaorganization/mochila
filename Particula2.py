@@ -1,3 +1,5 @@
+import random
+
 class Particula:
 
     def __init__(self, numeroEntradas):
