@@ -53,7 +53,7 @@ def simulacaoAleatoria1():
 
 def simulacaoAleatoria2(totalSimulacoes):
     util = FileUtils()
-    pesosLidos,valoresLidos,pesoMaximo = util.readConfigurationFile("mochila2.txt")
+    pesosLidos,valoresLidos,pesoMaximo = util.readConfigurationFile("mochila500.txt")
     melhorCromossomo = Cromossomo(len(pesosLidos))
     melhorCromossomo.setFitness(0)
     for i in range(0,totalSimulacoes):
