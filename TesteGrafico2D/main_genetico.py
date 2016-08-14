@@ -1,8 +1,7 @@
+# -*- coding: utf-8 -*-
+
 from AlgoritmoGenetico import AlgoritmoGenetico
 from FileUtils import FileUtils
-
-
-
 
 if __name__ == '__main__':
 	util = FileUtils()
@@ -19,19 +18,15 @@ if __name__ == '__main__':
 	ag.probabilidadeMutacao = 1
 	nrGeracoes = 100000
 
-
-	
-	
-	print "***********  populacao inicial    ***************"
-	print "calculando o fitness..."
+	print "*****  População inicial"
+	print "Calculando fitness..."
 	ag.calculaFitness()
-	print "selecionando..."
+	print "Selecionando..."
 	ag.seleciona()
 
-
 	for i in range(nrGeracoes):
-		print "\n\n*************  Geracao: "+ str(i) + "   *************" 
-		ag.cruza()	
+		# print "\n\n*****  GERAÇÃO: " + str(i)
+		ag.cruza()
 		ag.muta()
 		ag.seleciona()
 		print "G:-"+ str(i) + ag.getConfiguracaoMochila(ag.getMelhorIndividuo())
