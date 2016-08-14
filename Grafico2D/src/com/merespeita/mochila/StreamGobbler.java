@@ -1,13 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package testegrafico2d;
+package com.merespeita.mochila;
 
 import info.monitorenter.gui.chart.ITrace2D;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 class StreamGobbler extends Thread {
@@ -46,22 +40,10 @@ class StreamGobbler extends Thread {
                     pw.println(line);
                 }
 
-                //Essa linha faz imprimir a saida do programa no terminal
-//                System.out.println(type + ">" + line);
-               
-//                String[] dados = line.split("-");
                 if (line.contains("-")) {
                      dados.add(line);
 
                 }
-//                    for (String dado : dados) {
-//                        System.out.println(dado);
-//                        
-//                    }
-//                    System.exit(0);
-
-//                    trace.addPoint(geracao, valor);
-//                }
             }
             if (pw != null) {
                 pw.flush();
