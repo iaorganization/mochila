@@ -348,7 +348,7 @@ public class GraficoDinamico {
     }
     
     private static void startCapturaDados(Timer timer, TimerTask task) {
-        timer.schedule(task, 1000, 20);
+        timer.schedule(task, 300, 300);
     }
 
     private static void stopCapturaDados(Timer timer, TimerTask task) {
