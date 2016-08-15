@@ -11,9 +11,9 @@ import timeit
 
 util = FileUtils()
 
-numeroEpocas = 5000 # Numero maximo de epocas
-numeroParticulas = 20000 # Numero maximo de particulas
-velocidade = 10 # Velocidade maxima de mudanca de iteracoes
+numeroEpocas = 500 # Numero maximo de epocas
+numeroParticulas = 100 # Numero maximo de particulas
+velocidade = 1 # Velocidade maxima de mudanca de iteracoes
 
 pesos, valores, pesoMaximo = util.readConfigurationFile("mochila2.txt")
 

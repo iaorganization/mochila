@@ -228,15 +228,16 @@ public class GraficoDinamico {
                 for (int i = 0; i < dadosPython.size(); i++) {
                     List<String> dPython = dadosPython.get(i);
                     ITrace2D trace = traces.get(i);
-                    
                     if (!dPython.isEmpty() && dPython.get(0).contains("-")) {
                         String dados[] = dPython.get(0).split("-");
                         dPython.remove(0);
                         int geracao = Integer.parseInt(dados[1]);
                         int peso = Integer.parseInt(dados[3]);
                         int valor = Integer.parseInt(dados[5]);
-                        if (tipoGrafico == TIPO_GRAFICO_TEMPO_FITNESS)
+                        if (tipoGrafico == TIPO_GRAFICO_TEMPO_FITNESS){
                             trace.addPoint(geracao, valor);
+                            System.out.println(".run():v:" + String.valueOf(valor) + "p:" + String.valueOf(peso));                                    
+                        }
                         else if (tipoGrafico == TIPO_GRAFICO_PESO_FITNESS)
                             trace.addPoint(peso, valor);
                     }
@@ -279,8 +280,8 @@ public class GraficoDinamico {
         
         for (int i = 0; i < 3; i ++){
             dadosGenetico.add(new ArrayList<>(100000));    
-            dadosPSO.add(new ArrayList<>(1000000));
-            dadosAleatorio.add(new ArrayList<>(1000000));
+            dadosPSO.add(new ArrayList<>(100000));
+            dadosAleatorio.add(new ArrayList<>(100000));
             
             tracesGenetico.add(new Trace2DLtd(500));
             tracesPSO.add(new Trace2DLtd(500));
