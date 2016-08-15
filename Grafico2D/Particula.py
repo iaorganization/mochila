@@ -4,7 +4,7 @@ class Particula:
 
     def __init__(self, numeroEntradas):
         self.dados = None
-        self.melhorParticula = 0
+        self.melhorParticula = 0.0
         self.pesoTotal = 0
         self.valorTotal = 0
         self.velocidade = 0.0

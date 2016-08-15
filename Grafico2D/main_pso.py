@@ -143,7 +143,7 @@ def PSA():
             atualizaVelocidade(gMelhor)
             atualizaParticulas(gMelhor)
 
-            print "E:-" + str(epoca) + "-peso:-" + str(particulas[gMelhor].pesoTotal) + "-valor:-" + str(particulas[gMelhor].valorTotal) + "-fitness:-" + str(particulas[gMelhor].melhorParticula)
+            print "E:-" + str(epoca) + "-peso:-" + str(particulas[gMelhor].pesoTotal) + "-valor:-" + str(particulas[gMelhor].valorTotal) + "-fitness:-" + str(float(particulas[gMelhor].melhorParticula))
             epoca += 1
         else:
             feito = True
